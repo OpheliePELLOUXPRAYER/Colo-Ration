@@ -9,7 +9,10 @@ handlers:
   static_files: favicon.ico
   upload: favicon\.ico
 
-- url: .*
+- url: /DB
+  static_dir: DB
+
+- url: /.*
   script: main.app
 
 libraries:

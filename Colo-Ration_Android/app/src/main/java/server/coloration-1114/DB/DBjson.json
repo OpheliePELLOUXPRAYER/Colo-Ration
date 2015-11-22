@@ -1,0 +1,45 @@
+{
+    "collocations": [
+      {
+        "name": "laMeute",
+	"roommates": [
+          {
+            "firstname": "Ophelie",
+            "lastname" : "Pelloux-Prayer",
+            "mail" : "opheliepellouxprayer@gmail.com",
+            "tasks":{
+
+             },
+             "expenses" : {
+
+             }
+           },
+           {
+            "firstname": "Hugo",
+            "lastname" : "Rodrigues",
+            "mail" : "",
+            "tasks":{
+
+             },
+             "expenses" : {
+
+             }
+           }
+         ],
+        "events": [
+           {
+            "name": "noel",
+            "date" : "24-12-15",
+            "comment" : "c'est noel !!"
+           }
+        ],
+        "supplies": [
+           {
+            "name": "patate",
+            "quantity" : "2",
+            "comment" : ""
+           }
+        ]
+      }
+    ]
+}
