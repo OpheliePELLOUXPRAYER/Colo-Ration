@@ -4,5 +4,23 @@
     <string name="edit_message">Enter a message</string>
     <string name="button_send">Send</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_main">MainActivity</string>
+
+    <!-- Menu -->
+    <string name="title_size">75dp</string>
+    <string name="title">Menu principal</string>
+    <string name="supply">Liste des courses</string>
+    <string name="calendar">Calendrier</string>
+    <string name="expenses">Dépenses</string>
+    <string name="tasks">Tâches à réaliser</string>
+
+    <!-- Liste courses -->
+    <integer name="row_size">60</integer>
+
+    <color name="cyan">#3498db</color>
+    <color name="red">#c0392b</color>
+    <color name="blue">#2980b9</color>
+    <color name="orange">#f1c40f</color>
+    <color name="green">#27ae60</color>
+    <color name="pink">#8e44ad</color>
+    <color name="pumpkin">#d35400</color>
 </resources>

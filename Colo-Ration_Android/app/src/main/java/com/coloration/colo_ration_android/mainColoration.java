@@ -1,16 +1,28 @@
 package com.coloration.colo_ration_android;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 public class mainColoration extends AppCompatActivity {
+
+    private Button supply;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_coloration);
+        setContentView(R.layout.main_coloration);
+        /*supply = (Button)findViewById(R.id.supply);
+        supply.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                Intent intent = new Intent(mainColoration.this, com.coloration.colo_ration_android.supplyList.class);
+                startActivity(intent);
+            }
+        });*/
     }
 
     @Override
@@ -33,5 +45,11 @@ public class mainColoration extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void supplyClick(View view) {
+        Intent intent = new Intent(mainColoration.this, supplyList.class);
+        intent.putExtra("nb", 8);
+        startActivity(intent);
     }
 }
