@@ -13,11 +13,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
+# http://coloration-1114.appspot.com/
 import webapp2
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
+        self.response.headers['Content-Type'] = 'text/plain'
         self.response.write('Hello world!')
 
 app = webapp2.WSGIApplication([
