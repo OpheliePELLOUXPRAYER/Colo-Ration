@@ -11,21 +11,25 @@ import android.widget.TextView;
 
 public class supplyList extends AppCompatActivity {
 
-    int nb;
+    int nb = 5;
+    String txt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.supply_list);
         Intent i = getIntent();
-        nb = i.getIntExtra("nb", 0);
+        //nb = i.getIntExtra("nb", 0);
+        txt = i.getStringExtra("name");
         /*
         Button b = (Button)findViewById(R.id.name);
         b.setText(name);*/
 
 
         TableLayout tab = (TableLayout) findViewById(R.id.tab);
+        TextView textV = (TextView) findViewById(R.id.textView);
 
+        textV.setText(txt);
 
         for (int j = 0; j<nb; j++) {
             TableRow newRow = new TableRow(this);
@@ -35,7 +39,7 @@ public class supplyList extends AppCompatActivity {
             }
 
             TextView tv = new TextView(this);
-            tv.setText("yolo");
+            tv.setText(txt);
 
             newRow.addView(tv);
             tab.addView(newRow);
