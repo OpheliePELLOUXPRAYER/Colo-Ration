@@ -22,6 +22,7 @@ import java.sql.Statement;
 public class taskForm extends AppCompatActivity {
 
     private String[] tableTask;
+    private String[] table;
 
     private String name;
     private String priority;
@@ -41,6 +42,7 @@ public class taskForm extends AppCompatActivity {
         while(!readyToGo) {}
         Intent intent = new Intent(taskForm.this, taskList.class);
         intent.putExtra("tableTask", tableTask);
+        intent.putExtra("tableTitle", table);
         readyToGo = false;
         startActivity(intent);
     }
@@ -73,7 +75,7 @@ public class taskForm extends AppCompatActivity {
                 Connection conn = DriverManager.getConnection(url, user, passwd);
                 Statement state = conn.createStatement();
 
-                state.execute("INSERT INTO task(name, priority, comment) VALUES ('" + name + "', '" + Integer.valueOf(priority) + "', '"  + comment +"');");
+                state.execute("INSERT INTO task(nom, priorite, commentaire) VALUES ('" + name + "', '" + Integer.valueOf(priority) + "', '"  + comment +"');");
 
                 ResultSet r = state.executeQuery("SELECT COUNT(*) AS rowcount FROM task");
                 r.next();
@@ -82,8 +84,12 @@ public class taskForm extends AppCompatActivity {
                 ResultSet result = state.executeQuery("SELECT * FROM task");
 
                 ResultSetMetaData resultMeta = result.getMetaData();
+
+                table = new String[resultMeta.getColumnCount()];
+
                 for (int i = 1; i <= resultMeta.getColumnCount(); i++)
-                    System.out.print("\t" + resultMeta.getColumnName(i).toUpperCase() + "\t *");
+                    table[i-1] = resultMeta.getColumnName(i).toUpperCase();
+
 
                 tableTask = new String[count];
 

@@ -3,7 +3,9 @@ package com.coloration.colo_ration_android;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TableLayout;
@@ -52,6 +54,10 @@ public class supplyList extends AppCompatActivity {
                     TextView tv = new TextView(this);
                     tv.setText("\t" + values[k].trim() + "\t");
                     tv.setGravity(Gravity.CENTER);
+                    tv.setEllipsize(TextUtils.TruncateAt.END);
+                    tv.setSingleLine(true);
+                    tv.setMaxLines(1);
+                    tv.setHorizontallyScrolling(true);
                     newRow.addView(tv, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
                             TableRow.LayoutParams.WRAP_CONTENT, 1));
                 }
@@ -93,4 +99,14 @@ public class supplyList extends AppCompatActivity {
         Intent intent = new Intent(supplyList.this, supplyForm.class);
         startActivity(intent);
     }
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Intent intent = new Intent(supplyList.this, mainColoration.class);
+            startActivity(intent);
+        }
+
+        return super.onKeyDown(keyCode, event);
+    }
+
 }

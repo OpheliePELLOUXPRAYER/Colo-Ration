@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +19,7 @@ import java.sql.Statement;
 public class roommateForm extends AppCompatActivity {
 
     private String[] tableRoommate;
+    private String[] table;
 
     private String firstname;
     private String lastname;
@@ -37,6 +39,7 @@ public class roommateForm extends AppCompatActivity {
         while(!readyToGo) {}
         Intent intent = new Intent(roommateForm.this, roommateList.class);
         intent.putExtra("tableRoommate", tableRoommate);
+        intent.putExtra("tableTitle", table);
         readyToGo = false;
         startActivity(intent);
     }
@@ -71,7 +74,7 @@ public class roommateForm extends AppCompatActivity {
                 Connection conn = DriverManager.getConnection(url, user, passwd);
                 Statement state = conn.createStatement();
 
-                state.execute("INSERT INTO roommate(firstname, lastname, mail, phonenumber) VALUES ('"+ firstname + "', '" + lastname + "', '" + mail  + "', '" + phonenumber  + "');");
+                state.execute("INSERT INTO roommate(prenom, nom, mail, telephone) VALUES ('"+ firstname + "', '" + lastname + "', '" + mail  + "', '" + phonenumber  + "');");
 
                 ResultSet r = state.executeQuery("SELECT COUNT(*) AS rowcount FROM roommate");
                 r.next();
@@ -81,8 +84,10 @@ public class roommateForm extends AppCompatActivity {
 
                 ResultSetMetaData resultMeta = result.getMetaData();
 
+                table = new String[resultMeta.getColumnCount()];
+
                 for (int i = 1; i <= resultMeta.getColumnCount(); i++)
-                    System.out.print("\t" + resultMeta.getColumnName(i).toUpperCase() + "\t *");
+                    table[i-1] = resultMeta.getColumnName(i).toUpperCase();
 
                 tableRoommate = new String[count];
 
@@ -103,5 +108,13 @@ public class roommateForm extends AppCompatActivity {
             readyToGo = true;
             return null;
         }
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 }

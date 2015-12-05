@@ -18,6 +18,7 @@ import java.sql.Statement;
 public class expenseForm extends AppCompatActivity {
 
     private String[] tableExpense;
+    private String[] table;
 
     private String name;
     private String price;
@@ -36,6 +37,7 @@ public class expenseForm extends AppCompatActivity {
         while(!readyToGo) {}
         Intent intent = new Intent(expenseForm.this, expenseList.class);
         intent.putExtra("tableExpense", tableExpense);
+        intent.putExtra("tableTitle", table);
         readyToGo = false;
         startActivity(intent);
     }
@@ -66,7 +68,8 @@ public class expenseForm extends AppCompatActivity {
                 Connection conn = DriverManager.getConnection(url, user, passwd);
                 Statement state = conn.createStatement();
 
-                state.execute("INSERT INTO expense(name, price, comment) VALUES ('" + name + "', '" + Float.valueOf(price) + "', '"  + comment +"');");
+                // TODO revoir price
+                state.execute("INSERT INTO expense(nom, prix, commentaire) VALUES ('" + name + "', '" + Float.valueOf(price) + "', '"  + comment +"');");
 
                 ResultSet r = state.executeQuery("SELECT COUNT(*) AS rowcount FROM expense");
                 r.next();
@@ -78,8 +81,10 @@ public class expenseForm extends AppCompatActivity {
                 // On récupère les MetaData
                 ResultSetMetaData resultMeta = result.getMetaData();
 
+                table = new String[resultMeta.getColumnCount()];
+
                 for (int i = 1; i <= resultMeta.getColumnCount(); i++)
-                    System.out.print("\t" + resultMeta.getColumnName(i).toUpperCase() + "\t *");
+                    table[i-1] = resultMeta.getColumnName(i).toUpperCase();
 
                 tableExpense = new String[count];
 

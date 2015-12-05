@@ -16,6 +16,7 @@ import java.sql.Statement;
 public class eventForm extends AppCompatActivity {
 
     private String[] tableEvent;
+    private String[] table;
 
     private String name;
     private String date;
@@ -34,6 +35,7 @@ public class eventForm extends AppCompatActivity {
         while(!readyToGo) {}
         Intent intent = new Intent(eventForm.this, eventList.class);
         intent.putExtra("tableEvent", tableEvent);
+        intent.putExtra("tableTitle", table);
         readyToGo = false;
         startActivity(intent);
     }
@@ -64,8 +66,8 @@ public class eventForm extends AppCompatActivity {
                 Connection conn = DriverManager.getConnection(url, user, passwd);
                 Statement state = conn.createStatement();
 
-                //gestion de la date
-                state.execute("INSERT INTO event(name, date, comment) VALUES ('" + name + "', '" + date + "', '" + comment + "');");
+                // TODO gestion de la date
+                state.execute("INSERT INTO event(nom, date, commentaire) VALUES ('" + name + "', '" + date + "', '" + comment + "');");
 
                 ResultSet r = state.executeQuery("SELECT COUNT(*) AS rowcount FROM event");
                 r.next();
@@ -77,8 +79,10 @@ public class eventForm extends AppCompatActivity {
                 // On récupère les MetaData
                 ResultSetMetaData resultMeta = result.getMetaData();
 
+                table = new String[resultMeta.getColumnCount()];
+
                 for (int i = 1; i <= resultMeta.getColumnCount(); i++)
-                    System.out.print("\t" + resultMeta.getColumnName(i).toUpperCase() + "\t *");
+                    table[i-1] = resultMeta.getColumnName(i).toUpperCase();
 
                 tableEvent = new String[count];
 

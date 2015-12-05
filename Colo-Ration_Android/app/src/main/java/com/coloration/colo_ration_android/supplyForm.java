@@ -18,6 +18,7 @@ import java.sql.Statement;
 public class supplyForm extends AppCompatActivity {
 
     private String[] tableSupply;
+    private String[] table;
 
     private String name;
     private String quantity;
@@ -36,6 +37,7 @@ public class supplyForm extends AppCompatActivity {
         while(!readyToGo) {}
         Intent intent = new Intent(supplyForm.this, supplyList.class);
         intent.putExtra("tableSupply", tableSupply);
+        intent.putExtra("tableTitle", table);
         readyToGo = false;
         startActivity(intent);
     }
@@ -66,7 +68,7 @@ public class supplyForm extends AppCompatActivity {
                 Connection conn = DriverManager.getConnection(url, user, passwd);
                 Statement state = conn.createStatement();
 
-                state.execute("INSERT INTO supply(name, quantity, comment) VALUES ('" + name + "', '" + Integer.valueOf(quantity) + "', '"  + comment +"');");
+                state.execute("INSERT INTO supply(nom, quantite, commentaire) VALUES ('" + name + "', '" + Integer.valueOf(quantity) + "', '"  + comment +"');");
 
                 ResultSet r = state.executeQuery("SELECT COUNT(*) AS rowcount FROM supply");
                 r.next();
@@ -78,8 +80,10 @@ public class supplyForm extends AppCompatActivity {
                 // On récupère les MetaData
                 ResultSetMetaData resultMeta = result.getMetaData();
 
+                table = new String[resultMeta.getColumnCount()];
+
                 for (int i = 1; i <= resultMeta.getColumnCount(); i++)
-                    System.out.print("\t" + resultMeta.getColumnName(i).toUpperCase() + "\t *");
+                    table[i-1] = resultMeta.getColumnName(i).toUpperCase();
 
                 tableSupply = new String[count];
 
