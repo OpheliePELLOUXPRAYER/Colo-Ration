@@ -35,7 +35,7 @@ public class expenseForm extends AppCompatActivity {
         add();
         while(!readyToGo) {}
         Intent intent = new Intent(expenseForm.this, expenseList.class);
-        intent.putExtra("tableTask", tableExpense);
+        intent.putExtra("tableExpense", tableExpense);
         readyToGo = false;
         startActivity(intent);
     }
@@ -66,7 +66,7 @@ public class expenseForm extends AppCompatActivity {
                 Connection conn = DriverManager.getConnection(url, user, passwd);
                 Statement state = conn.createStatement();
 
-                state.execute("INSERT INTO expense(name, price, comment) VALUES ('" + name + "', '" + Integer.valueOf(price) + "', '"  + comment +"');");
+                state.execute("INSERT INTO expense(name, price, comment) VALUES ('" + name + "', '" + Float.valueOf(price) + "', '"  + comment +"');");
 
                 ResultSet r = state.executeQuery("SELECT COUNT(*) AS rowcount FROM expense");
                 r.next();
@@ -87,7 +87,7 @@ public class expenseForm extends AppCompatActivity {
                 while (result.next()) {
                     tableExpense[j] = "";
                     for (int i = 1; i <= resultMeta.getColumnCount(); i++)
-                        tableExpense[j] += "\t" + result.getObject(i).toString() + "\t |";
+                        tableExpense[j] += result.getObject(i).toString() + "&";
                     j++;
 
                 }

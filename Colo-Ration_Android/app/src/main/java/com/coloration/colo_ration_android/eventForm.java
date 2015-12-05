@@ -86,7 +86,7 @@ public class eventForm extends AppCompatActivity {
                 while (result.next()) {
                     tableEvent[j] = "";
                     for (int i = 1; i <= resultMeta.getColumnCount(); i++)
-                        tableEvent[j] += "\t" + result.getObject(i).toString() + "\t |";
+                        tableEvent[j] += result.getObject(i).toString() + "&";
                     j++;
 
                 }

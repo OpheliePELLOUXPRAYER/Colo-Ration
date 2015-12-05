@@ -3,8 +3,11 @@ package com.coloration.colo_ration_android;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.Space;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -12,6 +15,7 @@ import android.widget.TextView;
 public class roommateList extends AppCompatActivity {
 
     String[] table;
+    String[] tableTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,21 +23,39 @@ public class roommateList extends AppCompatActivity {
         setContentView(R.layout.roommate_list);
         Intent i = getIntent();
         table = i.getStringArrayExtra("tableRoommate");
+        tableTitle = i.getStringArrayExtra("tableTitle");
 
 
         TableLayout tab = (TableLayout) findViewById(R.id.tab);
         try{
+            TableRow rowTitle = new TableRow(this);
+            rowTitle.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT));
+            rowTitle.setBackgroundColor(getResources().getColor(R.color.green));
+            for (int k = 1; k < tableTitle.length; k++) {
+                TextView tv1 = new TextView(this);
+                tv1.setText(tableTitle[k]);
+                tv1.setGravity(Gravity.CENTER);
+                rowTitle.addView(tv1, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
+                        TableRow.LayoutParams.WRAP_CONTENT, 1));
+            }
+            tab.addView(rowTitle);
+
             for (int j = 0; j < table.length; j++) {
                 TableRow newRow = new TableRow(this);
                 newRow.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT));
                 if (j % 2 == 1) {
-                    newRow.setBackgroundColor(getResources().getColor(R.color.cyan));
+                    newRow.setBackgroundColor(getResources().getColor(R.color.green));
                 }
 
-                TextView tv = new TextView(this);
-                tv.setText(table[j]);
+                String[] values = table[j].split("&");
 
-                newRow.addView(tv);
+                for (int k = 1; k < values.length; k++) {
+                    TextView tv = new TextView(this);
+                    tv.setText("\t" + values[k].trim() + "\t");
+                    tv.setGravity(Gravity.CENTER);
+                    newRow.addView(tv, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
+                            TableRow.LayoutParams.WRAP_CONTENT, 1));
+                }
                 tab.addView(newRow);
             }
         }catch(NullPointerException e){

@@ -64,7 +64,8 @@ public class mainColoration extends AppCompatActivity {
         new dbSupply().execute();
         while(!readyToGo) {}
         Intent intent = new Intent(mainColoration.this, supplyList.class);
-        intent.putExtra("table", tableSupply);
+        intent.putExtra("tableSupply", tableSupply);
+        intent.putExtra("tableTitle", table);
         readyToGo = false;
         startActivity(intent);
     }
@@ -75,6 +76,7 @@ public class mainColoration extends AppCompatActivity {
         while(!readyToGo) {}
         Intent intent = new Intent(mainColoration.this, taskList.class);
         intent.putExtra("tableTask", tableTask);
+        intent.putExtra("tableTitle", table);
         readyToGo = false;
         startActivity(intent);
     }
@@ -85,6 +87,7 @@ public class mainColoration extends AppCompatActivity {
         while(!readyToGo) {}
         Intent intent = new Intent(mainColoration.this, expenseList.class);
         intent.putExtra("tableExpense", tableExpense);
+        intent.putExtra("tableTitle", table);
         readyToGo = false;
         startActivity(intent);
     }
@@ -95,6 +98,7 @@ public class mainColoration extends AppCompatActivity {
         while(!readyToGo) {}
         Intent intent = new Intent(mainColoration.this, eventList.class);
         intent.putExtra("tableEvent", tableEvent);
+        intent.putExtra("tableTitle", table);
         readyToGo = false;
         startActivity(intent);
     }
@@ -105,6 +109,7 @@ public class mainColoration extends AppCompatActivity {
         while(!readyToGo) {}
         Intent intent = new Intent(mainColoration.this, roommateList.class);
         intent.putExtra("tableRoommate", tableRoommate);
+        intent.putExtra("tableTitle", table);
         readyToGo = false;
         startActivity(intent);
     }
@@ -139,8 +144,10 @@ public class mainColoration extends AppCompatActivity {
                 ResultSet result = state.executeQuery("SELECT * FROM event");
                 ResultSetMetaData resultMeta = result.getMetaData();
 
+                table = new String[resultMeta.getColumnCount()];
+
                 for (int i = 1; i <= resultMeta.getColumnCount(); i++)
-                    System.out.print("\t" + resultMeta.getColumnName(i).toUpperCase() + "\t *");
+                    table[i-1] = resultMeta.getColumnName(i).toUpperCase();
 
                 tableEvent = new String[count];
 
@@ -149,7 +156,7 @@ public class mainColoration extends AppCompatActivity {
                     tableEvent[j] = new String();
                     tableEvent[j] = "";
                     for (int i = 1; i <= resultMeta.getColumnCount(); i++)
-                        tableEvent[j] += "\t" + result.getObject(i).toString() + "\t |";
+                        tableEvent[j] += result.getObject(i).toString() + "&";
                     j++;
                 }
                 result.close();
@@ -174,8 +181,10 @@ public class mainColoration extends AppCompatActivity {
                 ResultSet result = state.executeQuery("SELECT * FROM supply");
                 ResultSetMetaData resultMeta = result.getMetaData();
 
+                table = new String[resultMeta.getColumnCount()];
+
                 for (int i = 1; i <= resultMeta.getColumnCount(); i++)
-                    System.out.print("\t" + resultMeta.getColumnName(i).toUpperCase() + "\t *");
+                    table[i-1] = resultMeta.getColumnName(i).toUpperCase();
 
                 tableSupply = new String[count];
 
@@ -184,7 +193,7 @@ public class mainColoration extends AppCompatActivity {
                     tableSupply[j] = new String();
                     tableSupply[j] = "";
                     for (int i = 1; i <= resultMeta.getColumnCount(); i++)
-                        tableSupply[j] += "\t" + result.getObject(i).toString() + "\t |";
+                        tableSupply[j] += result.getObject(i).toString() + "&";
                     j++;
                 }
                 result.close();
@@ -209,8 +218,10 @@ public class mainColoration extends AppCompatActivity {
                 ResultSet result = state.executeQuery("SELECT * FROM task");
                 ResultSetMetaData resultMeta = result.getMetaData();
 
+                table = new String[resultMeta.getColumnCount()];
+
                 for (int i = 1; i <= resultMeta.getColumnCount(); i++)
-                    System.out.print("\t" + resultMeta.getColumnName(i).toUpperCase() + "\t *");
+                    table[i-1] = resultMeta.getColumnName(i).toUpperCase();
 
                 tableTask = new String[count];
 
@@ -219,7 +230,7 @@ public class mainColoration extends AppCompatActivity {
                     tableTask[j] = new String();
                     tableTask[j] = "";
                     for (int i = 1; i <= resultMeta.getColumnCount(); i++)
-                        tableTask[j] += "\t" + result.getObject(i).toString() + "\t |";
+                        tableTask[j] += result.getObject(i).toString() + "&";
                     j++;
                 }
                 result.close();
@@ -244,8 +255,10 @@ public class mainColoration extends AppCompatActivity {
                 ResultSet result = state.executeQuery("SELECT * FROM expense");
                 ResultSetMetaData resultMeta = result.getMetaData();
 
+                table = new String[resultMeta.getColumnCount()];
+
                 for (int i = 1; i <= resultMeta.getColumnCount(); i++)
-                    System.out.print("\t" + resultMeta.getColumnName(i).toUpperCase() + "\t *");
+                    table[i-1] = resultMeta.getColumnName(i).toUpperCase();
 
                 tableExpense = new String[count];
 
@@ -254,7 +267,7 @@ public class mainColoration extends AppCompatActivity {
                     tableExpense[j] = new String();
                     tableExpense[j] = "";
                     for (int i = 1; i <= resultMeta.getColumnCount(); i++)
-                        tableExpense[j] += "\t" + result.getObject(i).toString() + "\t |";
+                        tableExpense[j] += result.getObject(i).toString() + "&";
                     j++;
                 }
                 result.close();
@@ -279,8 +292,10 @@ public class mainColoration extends AppCompatActivity {
                 ResultSet result = state.executeQuery("SELECT * FROM roommate");
                 ResultSetMetaData resultMeta = result.getMetaData();
 
+                table = new String[resultMeta.getColumnCount()];
+
                 for (int i = 1; i <= resultMeta.getColumnCount(); i++)
-                    System.out.print("\t" + resultMeta.getColumnName(i).toUpperCase() + "\t *");
+                    table[i-1] = resultMeta.getColumnName(i).toUpperCase();
 
                 tableRoommate = new String[count];
 
@@ -289,7 +304,7 @@ public class mainColoration extends AppCompatActivity {
                     tableRoommate[j] = new String();
                     tableRoommate[j] = "";
                     for (int i = 1; i <= resultMeta.getColumnCount(); i++)
-                        tableRoommate[j] += "\t" + result.getObject(i).toString() + "\t |";
+                        tableRoommate[j] += result.getObject(i).toString() + "&";
                     j++;
                 }
                 result.close();

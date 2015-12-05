@@ -91,7 +91,7 @@ public class taskForm extends AppCompatActivity {
                 while (result.next()) {
                     tableTask[j] = "";
                     for (int i = 1; i <= resultMeta.getColumnCount(); i++)
-                        tableTask[j] += "\t" + result.getObject(i).toString() + "\t |";
+                        tableTask[j] += result.getObject(i).toString() + "&";
                     j++;
 
                 }

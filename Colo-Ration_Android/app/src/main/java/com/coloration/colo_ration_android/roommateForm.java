@@ -71,13 +71,13 @@ public class roommateForm extends AppCompatActivity {
                 Connection conn = DriverManager.getConnection(url, user, passwd);
                 Statement state = conn.createStatement();
 
-                state.execute("INSERT INTO roommate(firstname, lastname, mail)VALUES('"+ firstname + "', ''" + lastname + "'', ''" + mail  + "');"); //a modifier
+                state.execute("INSERT INTO roommate(firstname, lastname, mail, phonenumber) VALUES ('"+ firstname + "', '" + lastname + "', '" + mail  + "', '" + phonenumber  + "');");
 
-                ResultSet r = state.executeQuery("SELECT COUNT(*) AS rowcount FROM task");
+                ResultSet r = state.executeQuery("SELECT COUNT(*) AS rowcount FROM roommate");
                 r.next();
                 int count = r.getInt("rowcount");
 
-                ResultSet result = state.executeQuery("SELECT * FROM task");
+                ResultSet result = state.executeQuery("SELECT * FROM roommate");
 
                 ResultSetMetaData resultMeta = result.getMetaData();
 
@@ -90,7 +90,7 @@ public class roommateForm extends AppCompatActivity {
                 while (result.next()) {
                     tableRoommate[j] = "";
                     for (int i = 1; i <= resultMeta.getColumnCount(); i++)
-                        tableRoommate[j] += "\t" + result.getObject(i).toString() + "\t |";
+                        tableRoommate[j] += result.getObject(i).toString() + "&";
                     j++;
 
                 }

@@ -34,8 +34,8 @@ public class supplyForm extends AppCompatActivity {
     public void addClick(View view) {
         add();
         while(!readyToGo) {}
-        Intent intent = new Intent(supplyForm.this, supplyForm.class);
-        intent.putExtra("table", tableSupply);
+        Intent intent = new Intent(supplyForm.this, supplyList.class);
+        intent.putExtra("tableSupply", tableSupply);
         readyToGo = false;
         startActivity(intent);
     }
@@ -87,7 +87,7 @@ public class supplyForm extends AppCompatActivity {
                 while (result.next()) {
                     tableSupply[j] = "";
                     for (int i = 1; i <= resultMeta.getColumnCount(); i++)
-                        tableSupply[j] += "\t" + result.getObject(i).toString() + "\t |";
+                        tableSupply[j] += result.getObject(i).toString() + "&";
                     j++;
 
                 }
