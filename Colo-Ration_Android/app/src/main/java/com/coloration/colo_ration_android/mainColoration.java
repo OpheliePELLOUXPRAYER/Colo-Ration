@@ -19,28 +19,22 @@ public class mainColoration extends AppCompatActivity {
 
     private Button supply;
 
-    private static final String url = "jdbc:mysql://sql2.olympe.in:3306/sn8lkdvu";
-    private static final String user = "sn8lkdvu"; // Coloration
-    private static final String pass = "mm2pCre21";
-
     private String[] table;
     private String[] tableTask;
     private String[] tableExpense;
     private String[] tableEvent;
     private String[] tableRoommate;
+    private String[] tableSupply;
+
+    private boolean readyToGo = false;
+
+    // Connection to db
+    Statement state;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_coloration);
-        new dbConnection().execute();
-        /*supply = (Button)findViewById(R.id.supply);
-        supply.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                Intent intent = new Intent(mainColoration.this, com.coloration.colo_ration_android.supplyList.class);
-                startActivity(intent);
-            }
-        });*/
     }
 
     @Override
@@ -66,36 +60,250 @@ public class mainColoration extends AppCompatActivity {
     }
 
     public void supplyClick(View view) {
+        new dbConnection().execute();
+        new dbSupply().execute();
+        while(!readyToGo) {}
         Intent intent = new Intent(mainColoration.this, supplyList.class);
-        intent.putExtra("table", table);
+        intent.putExtra("table", tableSupply);
+        readyToGo = false;
         startActivity(intent);
     }
 
     public void taskClick(View view) {
+        new dbConnection().execute();
+        new dbTask().execute();
+        while(!readyToGo) {}
         Intent intent = new Intent(mainColoration.this, taskList.class);
         intent.putExtra("tableTask", tableTask);
+        readyToGo = false;
         startActivity(intent);
     }
 
     public void expenseClick(View view) {
+        new dbConnection().execute();
+        new dbExpense().execute();
+        while(!readyToGo) {}
         Intent intent = new Intent(mainColoration.this, expenseList.class);
         intent.putExtra("tableExpense", tableExpense);
+        readyToGo = false;
         startActivity(intent);
     }
 
     public void eventClick(View view) {
+        new dbConnection().execute();
+        new dbEvent().execute();
+        while(!readyToGo) {}
         Intent intent = new Intent(mainColoration.this, eventList.class);
         intent.putExtra("tableEvent", tableEvent);
+        readyToGo = false;
         startActivity(intent);
     }
 
     public void roommateClick(View view) {
+        new dbConnection().execute();
+        new dbRoommate().execute();
+        while(!readyToGo) {}
         Intent intent = new Intent(mainColoration.this, roommateList.class);
         intent.putExtra("tableRoommate", tableRoommate);
+        readyToGo = false;
         startActivity(intent);
     }
 
     private class dbConnection extends AsyncTask<Void, String, Void> {
+        protected Void doInBackground(Void... params) {
+            try {
+
+                Class.forName("org.postgresql.Driver");
+
+                String url = "jdbc:postgresql://192.168.1.24:5432/testDB";
+                String user = "postgres";
+                String passwd = "postgres";
+
+                Connection conn = DriverManager.getConnection(url, user, passwd);
+                state = conn.createStatement();
+            } catch (Exception e) {
+            e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    private class dbEvent extends AsyncTask<Void, String, Void> {
+        protected Void doInBackground(Void... params) {
+
+            try {
+                ResultSet r = state.executeQuery("SELECT COUNT(*) AS rowcount FROM event");
+                r.next();
+                int count = r.getInt("rowcount");
+
+                ResultSet result = state.executeQuery("SELECT * FROM event");
+                ResultSetMetaData resultMeta = result.getMetaData();
+
+                for (int i = 1; i <= resultMeta.getColumnCount(); i++)
+                    System.out.print("\t" + resultMeta.getColumnName(i).toUpperCase() + "\t *");
+
+                tableEvent = new String[count];
+
+                int j = 0;
+                while (result.next()) {
+                    tableEvent[j] = new String();
+                    tableEvent[j] = "";
+                    for (int i = 1; i <= resultMeta.getColumnCount(); i++)
+                        tableEvent[j] += "\t" + result.getObject(i).toString() + "\t |";
+                    j++;
+                }
+                result.close();
+                state.close();
+                readyToGo = true;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+    }
+
+    private class dbSupply extends AsyncTask<Void, String, Void> {
+        protected Void doInBackground(Void... params) {
+
+            try {
+                ResultSet r = state.executeQuery("SELECT COUNT(*) AS rowcount FROM supply");
+                r.next();
+                int count = r.getInt("rowcount");
+
+                ResultSet result = state.executeQuery("SELECT * FROM supply");
+                ResultSetMetaData resultMeta = result.getMetaData();
+
+                for (int i = 1; i <= resultMeta.getColumnCount(); i++)
+                    System.out.print("\t" + resultMeta.getColumnName(i).toUpperCase() + "\t *");
+
+                tableSupply = new String[count];
+
+                int j = 0;
+                while (result.next()) {
+                    tableSupply[j] = new String();
+                    tableSupply[j] = "";
+                    for (int i = 1; i <= resultMeta.getColumnCount(); i++)
+                        tableSupply[j] += "\t" + result.getObject(i).toString() + "\t |";
+                    j++;
+                }
+                result.close();
+                state.close();
+                readyToGo = true;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+    }
+
+    private class dbTask extends AsyncTask<Void, String, Void> {
+        protected Void doInBackground(Void... params) {
+
+            try {
+                ResultSet r = state.executeQuery("SELECT COUNT(*) AS rowcount FROM task");
+                r.next();
+                int count = r.getInt("rowcount");
+
+                ResultSet result = state.executeQuery("SELECT * FROM task");
+                ResultSetMetaData resultMeta = result.getMetaData();
+
+                for (int i = 1; i <= resultMeta.getColumnCount(); i++)
+                    System.out.print("\t" + resultMeta.getColumnName(i).toUpperCase() + "\t *");
+
+                tableTask = new String[count];
+
+                int j = 0;
+                while (result.next()) {
+                    tableTask[j] = new String();
+                    tableTask[j] = "";
+                    for (int i = 1; i <= resultMeta.getColumnCount(); i++)
+                        tableTask[j] += "\t" + result.getObject(i).toString() + "\t |";
+                    j++;
+                }
+                result.close();
+                state.close();
+                readyToGo = true;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+    }
+
+    private class dbExpense extends AsyncTask<Void, String, Void> {
+        protected Void doInBackground(Void... params) {
+
+            try {
+                ResultSet r = state.executeQuery("SELECT COUNT(*) AS rowcount FROM expense");
+                r.next();
+                int count = r.getInt("rowcount");
+
+                ResultSet result = state.executeQuery("SELECT * FROM expense");
+                ResultSetMetaData resultMeta = result.getMetaData();
+
+                for (int i = 1; i <= resultMeta.getColumnCount(); i++)
+                    System.out.print("\t" + resultMeta.getColumnName(i).toUpperCase() + "\t *");
+
+                tableExpense = new String[count];
+
+                int j = 0;
+                while (result.next()) {
+                    tableExpense[j] = new String();
+                    tableExpense[j] = "";
+                    for (int i = 1; i <= resultMeta.getColumnCount(); i++)
+                        tableExpense[j] += "\t" + result.getObject(i).toString() + "\t |";
+                    j++;
+                }
+                result.close();
+                state.close();
+                readyToGo = true;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+    }
+
+    private class dbRoommate extends AsyncTask<Void, String, Void> {
+        protected Void doInBackground(Void... params) {
+
+            try {
+                ResultSet r = state.executeQuery("SELECT COUNT(*) AS rowcount FROM roommate");
+                r.next();
+                int count = r.getInt("rowcount");
+
+                ResultSet result = state.executeQuery("SELECT * FROM roommate");
+                ResultSetMetaData resultMeta = result.getMetaData();
+
+                for (int i = 1; i <= resultMeta.getColumnCount(); i++)
+                    System.out.print("\t" + resultMeta.getColumnName(i).toUpperCase() + "\t *");
+
+                tableRoommate = new String[count];
+
+                int j = 0;
+                while (result.next()) {
+                    tableRoommate[j] = new String();
+                    tableRoommate[j] = "";
+                    for (int i = 1; i <= resultMeta.getColumnCount(); i++)
+                        tableRoommate[j] += "\t" + result.getObject(i).toString() + "\t |";
+                    j++;
+                }
+                result.close();
+                state.close();
+                readyToGo = true;
+                } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+    }
+
+    private class dbConnection1 extends AsyncTask<Void, String, Void> {
         protected Void doInBackground(Void... params) {
             try {
 
@@ -144,17 +352,6 @@ public class mainColoration extends AppCompatActivity {
                 e.printStackTrace();
             }
             return null;
-        }
-
-        @Override
-        protected void onProgressUpdate(String... values){
-        }
-
-        @Override
-        protected void onPreExecute() {
-        }
-        @Override
-        protected void onPostExecute(Void result) {
         }
     }
 
