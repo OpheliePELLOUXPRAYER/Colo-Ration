@@ -1,6 +1,7 @@
 package com.coloration.colo_ration_android;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -22,14 +23,13 @@ public class mainColoration extends AppCompatActivity {
     private static final String user = "sn8lkdvu"; // Coloration
     private static final String pass = "mm2pCre21";
 
-    private int nb = 3;
-    private String txt = "";
+    private String[] table;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_coloration);
-        testDB();
+        new dbConnection().execute();
         /*supply = (Button)findViewById(R.id.supply);
         supply.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
@@ -63,34 +63,73 @@ public class mainColoration extends AppCompatActivity {
 
     public void supplyClick(View view) {
         Intent intent = new Intent(mainColoration.this, supplyList.class);
-        intent.putExtra("nb", nb);
-        intent.putExtra("name", txt);
+        intent.putExtra("table", table);
         startActivity(intent);
     }
 
-    public void testDB() {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection(url, user, pass);
-            /* System.out.println("Databaseection success"); */
+    private class dbConnection extends AsyncTask<Void, String, Void> {
+        protected Void doInBackground(Void... params) {
+            try {
 
-            String result = "Database connection success\n";
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("select * from test");
-            ResultSetMetaData rsmd = rs.getMetaData();
+                Class.forName("org.postgresql.Driver");
 
-            while(rs.next()) {
-                result += rsmd.getColumnName(1) + ": " + rs.getInt(1) + "\n";
-                result += rsmd.getColumnName(2) + ": " + rs.getString(2) + "\n";
+                String url = "jdbc:postgresql://192.168.1.24:5432/testDB";
+                String user = "postgres";
+                String passwd = "postgres";
+
+                Connection conn = DriverManager.getConnection(url, user, passwd);
+                Statement state = conn.createStatement();
+
+                //state.execute("INSERT INTO roommate(\"Id\", \"Name\", \"Surname\") VALUES (4,'{b}', '{b}');");
+
+                ResultSet r = state.executeQuery("SELECT COUNT(*) AS rowcount FROM roommate");
+                r.next();
+                int count = r.getInt("rowcount");
+
+                // L'objet ResultSet contient le résultat de la requête SQL
+                ResultSet result = state.executeQuery("SELECT * FROM roommate");
+
+                // On récupère les MetaData
+                ResultSetMetaData resultMeta = result.getMetaData();
+
+
+                // On affiche le nom des colonnes
+
+                for (int i = 1; i <= resultMeta.getColumnCount(); i++)
+                    System.out.print("\t" + resultMeta.getColumnName(i).toUpperCase() + "\t *");
+
+                table = new String[count];
+
+                int j = 0;
+                while (result.next()) {
+                    table[j] = new String();
+                    table[j] = "";
+                    for (int i = 1; i <= resultMeta.getColumnCount(); i++)
+                        table[j] += "\t" + result.getObject(i).toString() + "\t |";
+                    j++;
+
+                }
+                result.close();
+                state.close();
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            txt += result;
-            //tv.setText(result);
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-            txt = e.toString();
-            //tv.setText(e.toString());
+            return null;
         }
 
+        @Override
+        protected void onProgressUpdate(String... values){
+        }
+
+        @Override
+        protected void onPreExecute() {
+        }
+        @Override
+        protected void onPostExecute(Void result) {
+        }
     }
+
 }
+
+

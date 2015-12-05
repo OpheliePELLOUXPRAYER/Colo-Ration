@@ -11,27 +11,24 @@ import android.widget.TextView;
 
 public class supplyList extends AppCompatActivity {
 
-    int nb = 5;
+    int nb = 10;
     String txt;
+    String[] table;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.supply_list);
         Intent i = getIntent();
-        //nb = i.getIntExtra("nb", 0);
-        txt = i.getStringExtra("name");
+        table = i.getStringArrayExtra("table");
         /*
         Button b = (Button)findViewById(R.id.name);
         b.setText(name);*/
 
 
         TableLayout tab = (TableLayout) findViewById(R.id.tab);
-        TextView textV = (TextView) findViewById(R.id.textView);
 
-        textV.setText(txt);
-
-        for (int j = 0; j<nb; j++) {
+        for (int j = 0; j<table.length; j++) {
             TableRow newRow = new TableRow(this);
             newRow.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT));
             if (j%2 == 1) {
@@ -39,7 +36,7 @@ public class supplyList extends AppCompatActivity {
             }
 
             TextView tv = new TextView(this);
-            tv.setText(txt);
+            tv.setText(table[j]);
 
             newRow.addView(tv);
             tab.addView(newRow);
