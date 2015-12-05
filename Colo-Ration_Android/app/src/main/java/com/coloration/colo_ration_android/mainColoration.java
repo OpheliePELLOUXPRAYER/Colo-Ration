@@ -24,6 +24,10 @@ public class mainColoration extends AppCompatActivity {
     private static final String pass = "mm2pCre21";
 
     private String[] table;
+    private String[] tableTask;
+    private String[] tableExpense;
+    private String[] tableEvent;
+    private String[] tableRoommate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +68,30 @@ public class mainColoration extends AppCompatActivity {
     public void supplyClick(View view) {
         Intent intent = new Intent(mainColoration.this, supplyList.class);
         intent.putExtra("table", table);
+        startActivity(intent);
+    }
+
+    public void taskClick(View view) {
+        Intent intent = new Intent(mainColoration.this, taskList.class);
+        intent.putExtra("tableTask", tableTask);
+        startActivity(intent);
+    }
+
+    public void expenseClick(View view) {
+        Intent intent = new Intent(mainColoration.this, expenseList.class);
+        intent.putExtra("tableExpense", tableExpense);
+        startActivity(intent);
+    }
+
+    public void eventClick(View view) {
+        Intent intent = new Intent(mainColoration.this, eventList.class);
+        intent.putExtra("tableEvent", tableEvent);
+        startActivity(intent);
+    }
+
+    public void roommateClick(View view) {
+        Intent intent = new Intent(mainColoration.this, roommateList.class);
+        intent.putExtra("tableRoommate", tableRoommate);
         startActivity(intent);
     }
 

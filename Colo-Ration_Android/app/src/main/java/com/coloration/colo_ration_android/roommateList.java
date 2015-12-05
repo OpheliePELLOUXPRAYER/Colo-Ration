@@ -9,21 +9,16 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-public class supplyList extends AppCompatActivity {
+public class roommateList extends AppCompatActivity {
 
-    int nb = 10;
-    String txt;
     String[] table;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.supply_list);
+        setContentView(R.layout.roommate_list);
         Intent i = getIntent();
-        table = i.getStringArrayExtra("table");
-        /*
-        Button b = (Button)findViewById(R.id.name);
-        b.setText(name);*/
+        table = i.getStringArrayExtra("tableRoommate");
 
 
         TableLayout tab = (TableLayout) findViewById(R.id.tab);
@@ -74,7 +69,7 @@ public class supplyList extends AppCompatActivity {
     }
 
     public void addElement(){
-        Intent intent = new Intent(supplyList.this, supplyForm.class);
+        Intent intent = new Intent(roommateList.this, roommateForm.class);
         startActivity(intent);
     }
 }

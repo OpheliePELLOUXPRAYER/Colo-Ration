@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="75dp" >
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/calendar"
+            android:id="@+id/button5"
+            android:background="@color/pumpkin" />
+
+    </LinearLayout>
+
+    <android.widget.Space
+        android:layout_width="0dp"
+        android:layout_height="10dp"/>
+
+    <LinearLayout
+        android:id="@+id/layout_row1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.2"
+        android:orientation="horizontal" >
+        <TextView
+            style="?android:attr/buttonStyleSmall"
+            android:layout_height="match_parent"
+            android:layout_width="2dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:text="Nom"
+            android:background="@color/pumpkin"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"/>
+        <TextView
+            style="?android:attr/buttonStyleSmall"
+            android:layout_height="match_parent"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:layout_width="2dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:text="Date"
+            android:background="@color/pumpkin"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layout_row2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.3"
+        android:orientation="horizontal" >
+        <EditText
+            android:id="@+id/name"
+            android:layout_height="match_parent"
+            android:layout_width="2dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"/>
+        <EditText
+            android:id="@+id/date"
+            android:layout_height="match_parent"
+            android:layout_width="2dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layout_row3"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.2"
+        android:orientation="horizontal" >
+        <TextView
+            style="?android:attr/buttonStyleSmall"
+            android:layout_height="match_parent"
+            android:layout_width="2dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:text="Commentaires"
+            android:background="@color/pumpkin"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layout_row4"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.7"
+        android:orientation="horizontal" >
+        <EditText
+            android:id="@+id/comment"
+            android:layout_height="match_parent"
+            android:layout_width="2dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layout_row5"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.2"
+        android:orientation="horizontal" >
+        <Button
+            android:id="@+id/validate"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_height="match_parent"
+            android:layout_width="2dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:text="@string/validate"
+            android:background="@color/pumpkin"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:onClick="addClick"/>
+    </LinearLayout>
+</LinearLayout>

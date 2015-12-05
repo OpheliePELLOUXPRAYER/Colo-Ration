@@ -17,7 +17,34 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".roommateList" >
+        </activity>
+        <activity
+            android:name=".roommateForm" >
+        </activity>
+        <activity
             android:name=".supplyList" >
+        </activity>
+        <activity
+            android:name=".supplyForm" >
+        </activity>
+        <activity
+            android:name=".taskList" >
+        </activity>
+        <activity
+            android:name=".taskForm" >
+        </activity>
+        <activity
+            android:name=".expenseList" >
+        </activity>
+        <activity
+            android:name=".expenseForm" >
+        </activity>
+        <activity
+            android:name=".eventList" >
+        </activity>
+        <activity
+            android:name=".eventForm" >
         </activity>
     </application>
 	<uses-permission android:name="android.permission.INTERNET" />
