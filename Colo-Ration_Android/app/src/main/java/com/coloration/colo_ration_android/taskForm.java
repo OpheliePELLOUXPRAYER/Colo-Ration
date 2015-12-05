@@ -60,33 +60,6 @@ public class taskForm extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.menu_main_coloration, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        /*int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        if (id == R.id.action_adding) {
-            addElement();
-            return true;
-        }*/
-
-        return false;//super.onOptionsItemSelected(item);
-    }
-
     private class dbAddTask extends AsyncTask<Void, String, Void> {
         protected Void doInBackground(Void... params) {
 
@@ -101,7 +74,6 @@ public class taskForm extends AppCompatActivity {
                 Statement state = conn.createStatement();
 
                 state.execute("INSERT INTO task(name, priority, comment) VALUES ('" + name + "', '" + Integer.valueOf(priority) + "', '"  + comment +"');");
-                //state.execute("INSERT INTO roommate(firstname, lastname, mail)VALUES('firstname(30)', 'lastname(30)', 'mail(100)'");
 
                 ResultSet r = state.executeQuery("SELECT COUNT(*) AS rowcount FROM task");
                 r.next();
