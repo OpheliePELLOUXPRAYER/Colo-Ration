@@ -56,7 +56,7 @@ public class roommateForm extends AppCompatActivity {
             Connection conn = DriverManager.getConnection(url, user, passwd);
             Statement state = conn.createStatement();
 
-            //state.execute("INSERT INTO roommate(firstname, lastname, mail)VALUES('firstname(30)', 'lastname(30)', 'mail(100)'");
+            state.execute("INSERT INTO roommate(firstname, lastname, mail)VALUES("+ firstname + ", " + lastname + ", " + mail );
 
             ResultSet r = state.executeQuery("SELECT COUNT(*) AS rowcount FROM roommate");
             r.next();
