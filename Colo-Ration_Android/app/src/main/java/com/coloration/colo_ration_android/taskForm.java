@@ -1,6 +1,7 @@
 package com.coloration.colo_ration_android;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -22,6 +23,12 @@ public class taskForm extends AppCompatActivity {
 
     private String[] tableTask;
 
+    private String name;
+    private String priority;
+    private String comment;
+
+    private boolean readyToGo = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,68 +37,27 @@ public class taskForm extends AppCompatActivity {
     }
 
     public void addClick(View view) {
-        Intent intent = new Intent(taskForm.this, taskList.class);
         add();
+        while(!readyToGo) {}
+        Intent intent = new Intent(taskForm.this, taskList.class);
         intent.putExtra("tableTask", tableTask);
+        readyToGo = false;
         startActivity(intent);
     }
 
     public void add(){
 
         EditText Editname = (EditText)findViewById(R.id.name);
-        String name = Editname.getText().toString();
+        name = Editname.getText().toString();
 
         EditText Editpriority= (EditText)findViewById(R.id.priority);
-        String priority = Editpriority.getText().toString();
+        priority = Editpriority.getText().toString();
 
         EditText Editcomment = (EditText)findViewById(R.id.comment);
-        String comment = Editcomment.getText().toString();
+        comment = Editcomment.getText().toString();
 
-        try {
-            Class.forName("org.postgresql.Driver");
+        new dbAddTask().execute();
 
-            String url = "jdbc:postgresql://192.168.1.24:5432/testDB";
-            String user = "postgres";
-            String passwd = "postgres";
-
-            Connection conn = DriverManager.getConnection(url, user, passwd);
-            Statement state = conn.createStatement();
-
-            state.execute("INSERT INTO task(name, priority, comment) VALUES (" + name + ", " + priority + ", "  + comment);
-            //state.execute("INSERT INTO roommate(firstname, lastname, mail)VALUES('firstname(30)', 'lastname(30)', 'mail(100)'");
-
-            ResultSet r = state.executeQuery("SELECT COUNT(*) AS rowcount FROM task");
-            r.next();
-            int count = r.getInt("rowcount");
-
-            // L'objet ResultSet contient le résultat de la requête SQL
-            ResultSet result = state.executeQuery("SELECT * FROM task");
-
-            // On récupère les MetaData
-            ResultSetMetaData resultMeta = result.getMetaData();
-
-
-            // On affiche le nom des colonnes
-
-            for (int i = 1; i <= resultMeta.getColumnCount(); i++)
-                System.out.print("\t" + resultMeta.getColumnName(i).toUpperCase() + "\t *");
-
-            tableTask = new String[count];
-
-            int j = 0;
-            while (result.next()) {
-                tableTask[j] = "";
-                for (int i = 1; i <= resultMeta.getColumnCount(); i++)
-                    tableTask[j] += "\t" + result.getObject(i).toString() + "\t |";
-                j++;
-
-            }
-            result.close();
-            state.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -119,5 +85,52 @@ public class taskForm extends AppCompatActivity {
         }*/
 
         return false;//super.onOptionsItemSelected(item);
+    }
+
+    private class dbAddTask extends AsyncTask<Void, String, Void> {
+        protected Void doInBackground(Void... params) {
+
+            try {
+                Class.forName("org.postgresql.Driver");
+
+                String url = "jdbc:postgresql://192.168.1.24:5432/testDB";
+                String user = "postgres";
+                String passwd = "postgres";
+
+                Connection conn = DriverManager.getConnection(url, user, passwd);
+                Statement state = conn.createStatement();
+
+                state.execute("INSERT INTO task(name, priority, comment) VALUES ('" + name + "', '" + Integer.valueOf(priority) + "', '"  + comment +"');");
+                //state.execute("INSERT INTO roommate(firstname, lastname, mail)VALUES('firstname(30)', 'lastname(30)', 'mail(100)'");
+
+                ResultSet r = state.executeQuery("SELECT COUNT(*) AS rowcount FROM task");
+                r.next();
+                int count = r.getInt("rowcount");
+
+                ResultSet result = state.executeQuery("SELECT * FROM task");
+
+                ResultSetMetaData resultMeta = result.getMetaData();
+                for (int i = 1; i <= resultMeta.getColumnCount(); i++)
+                    System.out.print("\t" + resultMeta.getColumnName(i).toUpperCase() + "\t *");
+
+                tableTask = new String[count];
+
+                int j = 0;
+                while (result.next()) {
+                    tableTask[j] = "";
+                    for (int i = 1; i <= resultMeta.getColumnCount(); i++)
+                        tableTask[j] += "\t" + result.getObject(i).toString() + "\t |";
+                    j++;
+
+                }
+                result.close();
+                state.close();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            readyToGo = true;
+            return null;
+        }
     }
 }
