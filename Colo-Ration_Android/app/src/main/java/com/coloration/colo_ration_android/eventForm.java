@@ -53,14 +53,16 @@ public class eventForm extends AppCompatActivity {
             Connection conn = DriverManager.getConnection(url, user, passwd);
             Statement state = conn.createStatement();
 
+
+            state.execute("INSERT INTO event(name, date, comment) VALUES (" + name + ", " + date + ", "  + comment);
             //state.execute("INSERT INTO roommate(firstname, lastname, mail)VALUES('firstname(30)', 'lastname(30)', 'mail(100)'");
 
-            ResultSet r = state.executeQuery("SELECT COUNT(*) AS rowcount FROM roommate");
+            ResultSet r = state.executeQuery("SELECT COUNT(*) AS rowcount FROM event");
             r.next();
             int count = r.getInt("rowcount");
 
             // L'objet ResultSet contient le résultat de la requête SQL
-            ResultSet result = state.executeQuery("SELECT * FROM roommate");
+            ResultSet result = state.executeQuery("SELECT * FROM event");
 
             // On récupère les MetaData
             ResultSetMetaData resultMeta = result.getMetaData();
