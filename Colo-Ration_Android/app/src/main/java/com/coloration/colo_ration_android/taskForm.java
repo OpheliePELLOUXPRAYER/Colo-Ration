@@ -68,7 +68,7 @@ public class taskForm extends AppCompatActivity {
             try {
                 Class.forName("org.postgresql.Driver");
 
-                String url = "jdbc:postgresql://192.168.1.24:5432/testDB";
+                String url = "jdbc:postgresql://192.168.43.44:5432/testDB";
                 String user = "postgres";
                 String passwd = "postgres";
 
